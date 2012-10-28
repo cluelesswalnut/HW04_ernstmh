@@ -12,11 +12,13 @@ node::node(){
 	right = NULL;
 	x = NULL;
 	y = NULL;
+	num = NULL;
 };
 
-node::node(float a, float b){
+node::node(float a, float b, int o){
 	left = NULL;
 	right = NULL;
 	x = a;
 	y = b;
+	num = o;
 };

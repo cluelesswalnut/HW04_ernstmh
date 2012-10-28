@@ -17,6 +17,7 @@ class HW04_ernstmhApp : public AppBasic {
 	void draw();
 	node* insert(node* r, node* b, bool x);
 	node* neer(node* rr, node* c, float x, float y, bool xx);
+	int slow(float** a, float x, float y, int l);
 };
 
 node* HW04_ernstmhApp::insert(node* r, node* b, bool x){
@@ -46,56 +47,68 @@ node* HW04_ernstmhApp::insert(node* r, node* b, bool x){
 };
 
 node* HW04_ernstmhApp::neer(node* r, node* cc, float x, float y, bool t){
-	console() << r->x << endl;
-	console() << x << endl;
-	console() << r->y << endl;
-	console() << y << endl;
 	node* c = cc;
-	if(r->x == x && r->y == y){
-		return r;
-	}
-	else if(c->x == x && c->y == y){
-		return c;
-	};
-	float dis = pow(pow(c->x - x, 2) + pow(c->y - y, 2), 1/2);
-	if(dis > pow(pow(r->x - x, 2) + pow(r->y - y, 2), 1/2)){
-		c = r;
-	};
-	if(t){
-		if(x <= r->x){
-			c = neer(r->left, c, x, y, !t);
+	if(r != NULL){
+		if(r->x == x && r->y == y){
+			return r;
 		}
-		else if(x > r->x){
-			c = neer(r->right, c, x, y, !t);
+		else if(c->x == x && c->y == y){
+			return c;
 		};
-		dis = pow(pow(c->x - x, 2) + pow(c->y - y, 2), 1/2);
-		if(dis > abs(x - r->x)){
+		float dis = sqrt(pow(c->x - x, 2) + pow(c->y - y, 2));
+		if(dis > sqrt(pow(r->x - x, 2) + pow(r->y - y, 2))){
+			c = r;
+		};
+		if(t){
 			if(x <= r->x){
-				c = neer(r->right, c, x, y, !t);
+				c = neer(r->left, c, x, y, !t);
 			}
 			else if(x > r->x){
-				c = neer(r->left, c, x, y, !t);
-			};
-		};
-	}
-	else{
-		if(y <= r->y){
-			c = neer(r->left, c, x, y, !t);
-		}
-		else if(y > r->y){
-			c = neer(r->right, c, x, y, !t);
-		};
-		dis = pow(pow(c->x - x, 2) + pow(c->y - y, 2), 1/2);
-		if(dis > abs(y - r->y)){
-			if(y <= r->y){
 				c = neer(r->right, c, x, y, !t);
+			};
+			dis = sqrt(pow(c->x - x, 2) + pow(c->y - y, 2));
+			if(dis > abs(x - r->x)){
+				if(x <= r->x){
+					c = neer(r->right, c, x, y, !t);
+				}
+				else if(x > r->x){
+					c = neer(r->left, c, x, y, !t);
+				};
+			};
+		}
+		else{
+			if(y <= r->y){
+				c = neer(r->left, c, x, y, !t);
 			}
 			else if(y > r->y){
-				c = neer(r->left, c, x, y, !t);
+				c = neer(r->right, c, x, y, !t);
+			};
+			dis = sqrt(pow(c->x - x, 2) + pow(c->y - y, 2));
+			if(dis > abs(y - r->y)){
+				if(y <= r->y){
+					c = neer(r->right, c, x, y, !t);
+				}
+				else if(y > r->y){
+					c = neer(r->left, c, x, y, !t);
+				};
 			};
 		};
 	};
 	return c;
+};
+
+int HW04_ernstmhApp::slow(float** r, float x, float y, int l){
+	float dis = 2;
+	float hold;
+	int sb = -1;
+	for(int i = 0; i < l; i++){
+		hold = sqrt(pow(r[i][0] - x, 2) + pow(r[i][1] - y, 2));
+		if(dis > hold){
+			dis = hold;
+			sb = i;
+		};
+	};
+	return sb;
 };
 
 void HW04_ernstmhApp::setup()
@@ -187,9 +200,9 @@ insert(one, two, true);
 
 console() << one->left->x << endl;*/
 
-node* one = new node(sb[0][0], sb [0][1]);
+node* one = new node(sb[0][0], sb [0][1], 0);
 for(int i = 1; i < length; i++){
-	insert(one,new node(sb[i][0], sb [i][1]),true);
+	insert(one,new node(sb[i][0], sb [i][1], i),true);
 };
 
 console() << one->left->x << endl;
@@ -197,7 +210,9 @@ console() << one->right->x << endl;
 console() << one->left->right->left->x << endl;
 console() << one->left->left->x << endl;
 
-node* hope = neer(one,one,one->x,one->y,true);
+node* hope = neer(one,one,0.261317,0.233164,true);
+console() << hope->num << endl;
+console() << slow(sb, 0.261317, 0.233164, length) << endl;
 };
 
 void HW04_ernstmhApp::mouseDown( MouseEvent event )
