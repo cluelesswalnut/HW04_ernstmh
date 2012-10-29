@@ -21,7 +21,7 @@ class HW04_ernstmhApp : public AppBasic {
 	void draw();
 	//node* insert(node* r, node* b, bool x);
 	//node* neer(node* rr, node* c, float x, float y, bool xx);
-	int slow(Entry* a, float x, float y, int l);
+	Entry* slow(Entry* a, float x, float y, int l);
 };
 
 /*node* HW04_ernstmhApp::insert(node* r, node* b, bool x){
@@ -103,15 +103,15 @@ node* HW04_ernstmhApp::neer(node* r, node* cc, float x, float y, bool t){
 
 // this method computer the nearest starbucks by checking all of them
 // i use this to check my answers
-int HW04_ernstmhApp::slow(Entry* r, float x, float y, int l){
+Entry* HW04_ernstmhApp::slow(Entry* r, float x, float y, int l){
 	float dis = 2;
 	float hold;
-	int sb = -1;
+	Entry* sb;
 	for(int i = 0; i < l; i++){
 		hold = sqrt(pow(r[i].x - x, 2) + pow(r[i].y - y, 2));
 		if(dis > hold){
 			dis = hold;
-			sb = i;
+			sb = &r[i];
 		};
 	};
 	return sb;
@@ -208,10 +208,11 @@ ernstmhStarbucks* test = new ernstmhStarbucks;
 test->build(s,length);
 Entry* wut;
 //call the getNearest function
-wut = test->getNearest(0.018779855,0.918968);
+float a = 0.484554;
+float b = 0.46761343;
+wut = test->getNearest(a,b);
 console() << wut->identifier << endl;
-
-	//console() << slow(s, 0.018779855, 0.918968, length) << endl;
+console() << (slow(s, a, b, length))->identifier << endl;
 };
 
 void HW04_ernstmhApp::mouseDown( MouseEvent event )
