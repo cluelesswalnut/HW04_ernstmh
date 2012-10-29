@@ -1,10 +1,14 @@
+
+
 class node{
 public:
 	node();
-	node(float a,float b, int o);
+	node(Entry ee, int o);
 	node* left;
 	node* right;
-	float x;
-	float y;
+	Entry e;
 	int num;
 };
+
+node* insert(node* r, node* b, bool x);
+node* neer(node* rr, node* c, float x, float y, bool xx);
