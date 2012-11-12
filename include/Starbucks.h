@@ -26,6 +26,7 @@ using namespace std;
 class Entry {
 public:
 	string identifier;
+	int pop;
 	double x;
 	double y;
 };
